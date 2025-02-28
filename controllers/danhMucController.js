@@ -1,11 +1,11 @@
-const { v4: uuidv4 } = require("uuid");
+const db = require("../models");
 const DanhMuc = require("../models/danhMucModel");
 const SanPham = require("../models/sanPhamModel");
 const { Op } = require("sequelize");
 
 exports.getAll = async (req, res) => {
   try {
-    const danhMucs = await DanhMuc.findAll({
+    const danhMucs = await db.DanhMuc.findAll({
       include: [
         {
           model: SanPham,
@@ -13,7 +13,8 @@ exports.getAll = async (req, res) => {
         },
       ],
     });
-    res.status(200).json(danhMucs);
+
+    return res.status(200).json(danhMucs);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -21,7 +22,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const danhMuc = await DanhMuc.findByPk(req.params.id, {
+    const danhMuc = await db.DanhMuc.findByPk(req.params.id, {
       include: [
         {
           model: SanPham,
@@ -42,8 +43,7 @@ exports.getById = async (req, res) => {
 exports.insert = async (req, res) => {
   try {
     const { tenDM } = req.body;
-    const maDM = uuidv4();
-    const danhMuc = await DanhMuc.create({ maDM, tenDM });
+    const danhMuc = await DanhMuc.create({ tenDM });
     res.status(201).json(danhMuc);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -81,7 +81,7 @@ exports.remove = async (req, res) => {
 
 exports.search = async (req, res) => {
   try {
-    const danhMucs = await DanhMuc.findAll({
+    const danhMucs = await db.DanhMuc.findAll({
       where: {
         tenDM: {
           [Op.like]: `%${req.query.q}%`,

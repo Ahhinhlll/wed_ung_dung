@@ -5,8 +5,7 @@ const VaiTro = sequelize.define(
   "VaiTro",
   {
     maVT: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     tenVT: {
@@ -15,7 +14,6 @@ const VaiTro = sequelize.define(
     },
   },
   {
-    timestamps: false,
     tableName: "VaiTro",
   }
 );

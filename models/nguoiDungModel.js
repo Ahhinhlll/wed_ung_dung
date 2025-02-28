@@ -43,7 +43,8 @@ const NguoiDung = sequelize.define(
       allowNull: true,
     },
     maVT: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
+      defaultValue: "U11",
       references: {
         model: "VaiTro",
         key: "maVT",
@@ -52,11 +53,16 @@ const NguoiDung = sequelize.define(
     },
   },
   {
-    timestamps: false,
     tableName: "NguoiDung",
   }
 );
-NguoiDung.associations = (models) => {
-  NguoiDung.belongsTo(models.VaiTro, { foreignKey: "maVT" });
+
+NguoiDung.associate = (models) => {
+  NguoiDung.belongsTo(models.VaiTro, {
+    foreignKey: "maVT",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
 };
+
 module.exports = NguoiDung;

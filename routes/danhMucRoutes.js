@@ -7,13 +7,15 @@ const {
   remove,
   search,
 } = require("../controllers/danhMucController");
+const { verifyToken } = require("../middlewares/authMiddleware");
+const { checkRole } = require("../middlewares/authorizeRole");
+
 const router = express.Router();
 
 /**
  * @swagger
  * tags:
  *   name: DanhMuc
- *   description: API cho Danh Mục
  */
 
 /**
@@ -21,9 +23,11 @@ const router = express.Router();
  * /api/danhmuc/getall:
  *   get:
  *     tags: [DanhMuc]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: A list of DanhMuc items
+ *         description: Danh sách danh mục
  *         content:
  *           application/json:
  *             schema:
@@ -31,37 +35,41 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/DanhMuc'
  */
-router.get("/danhmuc/getall", getAll);
+router.get("/danhmuc/getall", verifyToken, checkRole(["A00"]), getAll);
 
 /**
  * @swagger
  * /api/danhmuc/getbyid/{id}:
  *   get:
  *     tags: [DanhMuc]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of the DanhMuc item
+ *         description: ID của danh mục
  *     responses:
  *       200:
- *         description: A DanhMuc item
+ *         description: Chi tiết danh mục
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/DanhMuc'
  *       404:
- *         description: DanhMuc item not found
+ *         description: Không tìm thấy danh mục
  */
-router.get("/danhmuc/getbyid/:id", getById);
+router.get("/danhmuc/getbyid/:id", verifyToken, getById);
 
 /**
  * @swagger
  * /api/danhmuc/insert:
  *   post:
  *     tags: [DanhMuc]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -71,21 +79,24 @@ router.get("/danhmuc/getbyid/:id", getById);
  *             properties:
  *               tenDM:
  *                 type: string
+ *                 description: Tên danh mục
  *     responses:
  *       201:
- *         description: The created DanhMuc item
+ *         description: Tạo danh mục thành công
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/DanhMuc'
  */
-router.post("/danhmuc/insert", insert);
+router.post("/danhmuc/insert", verifyToken, checkRole(["A00"]), insert);
 
 /**
  * @swagger
  * /api/danhmuc/update:
  *   put:
  *     tags: [DanhMuc]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -95,59 +106,65 @@ router.post("/danhmuc/insert", insert);
  *             properties:
  *               maDM:
  *                 type: string
+ *                 description: ID danh mục
  *               tenDM:
  *                 type: string
+ *                 description: Tên danh mục mới
  *     responses:
  *       200:
- *         description: The updated DanhMuc item
+ *         description: Cập nhật danh mục thành công
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/DanhMuc'
  *       404:
- *         description: DanhMuc item not found
+ *         description: Không tìm thấy danh mục
  */
-router.put("/danhmuc/update", update);
+router.put("/danhmuc/update", verifyToken, checkRole(["A00"]), update);
 
 /**
  * @swagger
  * /api/danhmuc/delete/{id}:
  *   delete:
  *     tags: [DanhMuc]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of the DanhMuc item
+ *         description: ID của danh mục cần xóa
  *     responses:
  *       200:
- *         description: The deleted DanhMuc item
+ *         description: Xóa danh mục thành công
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/DanhMuc'
  *       404:
- *         description: DanhMuc item not found
+ *         description: Không tìm thấy danh mục
  */
-router.delete("/danhmuc/delete/:id", remove);
+router.delete("/danhmuc/delete/:id", verifyToken, checkRole(["A00"]), remove);
 
 /**
  * @swagger
  * /api/danhmuc/search:
  *   get:
  *     tags: [DanhMuc]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: q
  *         required: true
  *         schema:
  *           type: string
- *         description: The search term
+ *         description: Từ khóa tìm kiếm danh mục
  *     responses:
  *       200:
- *         description: A list of DanhMuc items matching the search term
+ *         description: Danh sách danh mục phù hợp
  *         content:
  *           application/json:
  *             schema:
@@ -155,6 +172,6 @@ router.delete("/danhmuc/delete/:id", remove);
  *               items:
  *                 $ref: '#/components/schemas/DanhMuc'
  */
-router.get("/danhmuc/search", search);
+router.get("/danhmuc/search", verifyToken, search);
 
 module.exports = router;

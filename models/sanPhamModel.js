@@ -39,7 +39,6 @@ const SanPham = sequelize.define(
     },
   },
   {
-    timestamps: false,
     tableName: "SanPham",
   }
 );

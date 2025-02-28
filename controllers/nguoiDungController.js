@@ -25,8 +25,7 @@ exports.getById = async (req, res) => {
 
 exports.insert = async (req, res) => {
   try {
-    const { tenND, diaChi, gioiTinh, email, taiKhoan, matKhau, anhThe } =
-      req.body;
+    const { tenND, diaChi, gioiTinh, email, taiKhoan, matKhau, anhThe } = req.body;
     const nguoiDung = await NguoiDung.create({
       tenND,
       diaChi,
@@ -35,7 +34,7 @@ exports.insert = async (req, res) => {
       taiKhoan,
       matKhau,
       anhThe,
-      maVT: "U11", // Giá trị mặc định cho maVT
+      maVT: "U11", 
     });
     res.status(201).json(nguoiDung);
   } catch (error) {
@@ -45,17 +44,7 @@ exports.insert = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const {
-      maND,
-      tenND,
-      diaChi,
-      gioiTinh,
-      email,
-      taiKhoan,
-      matKhau,
-      anhThe,
-      maVT,
-    } = req.body;
+    const { maND, tenND, diaChi, gioiTinh, email, taiKhoan, matKhau, anhThe, maVT } = req.body;
     const nguoiDung = await NguoiDung.findByPk(maND);
     if (nguoiDung !== null) {
       await nguoiDung.update({

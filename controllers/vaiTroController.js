@@ -1,9 +1,10 @@
+const db = require("../models");
 const NguoiDung = require("../models/nguoiDungModel");
 const VaiTro = require("../models/vaiTroModel");
 
 exports.getAll = async (req, res) => {
   try {
-    const vaiTros = await VaiTro.findAll({
+    const vaiTros = await db.VaiTro.findAll({
       include: [
         {
           model: NguoiDung,
@@ -19,7 +20,7 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const vaiTro = await VaiTro.findByPk(req.params.id, {
+    const vaiTro = await db.VaiTro.findByPk(req.params.id, {
       include: [
         {
           model: NguoiDung,

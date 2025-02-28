@@ -15,7 +15,6 @@ const DanhMuc = sequelize.define(
     },
   },
   {
-    timestamps: false,
     tableName: "DanhMuc",
   }
 );

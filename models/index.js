@@ -4,7 +4,7 @@ const SanPham = require("./sanPhamModel");
 const VaiTro = require("./vaiTroModel");
 const NguoiDung = require("./nguoiDungModel");
 
-const models = {
+const db = {
   DanhMuc,
   SanPham,
   VaiTro,
@@ -12,13 +12,10 @@ const models = {
 };
 
 // Thiết lập các mối quan hệ
-Object.keys(models).forEach((modelName) => {
-  if (models[modelName].associate) {
-    models[modelName].associate(models);
+Object.keys(db).forEach(function (modelName) {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
   }
 });
 
-module.exports = {
-  sequelize,
-  ...models,
-};
+module.exports = db;

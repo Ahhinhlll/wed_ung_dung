@@ -16,6 +16,13 @@ const swaggerOptions = {
       },
     ],
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT", // Sử dụng JWT token
+        },
+      },
       schemas: {
         DanhMuc: {
           type: "object",
@@ -132,6 +139,11 @@ const swaggerOptions = {
         // Thêm các schema khác ở đây
       },
     },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ["./routes/*.js"], // Định nghĩa các API trong thư mục routes
 };
